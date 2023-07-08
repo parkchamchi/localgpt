@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>CGPT</title>
+		<style>
+			.role {
+				font-weight: bold;
+			}
+			.context_input {
+				width: 75%;
+				resize: none;
+			}
+			.auto-resize {
+				
+			}
+			.last_input {
+				;
+			}
+
+			.submitbutton {
+				padding: 15px 30px;
+			}
+			
+			#presets_select {
+				width: 150px;
+				height: 50px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<form method="POST">
+			{% for i in range(messages|length + 1) %}
+				{% if i != (messages|length) %}
+					{% set role = messages[i][0] %}
+					{% set context = messages[i][1] %}
+					{% set last_input = False %}
+				{% else %}
+					{% set role = "user" %}
+					{% set context = "" %} 
+					{% set last_input = True %}
+				{% endif %}
+
+				<div class="role">{{ role.capitalize() }}</div>
+				<textarea class="context_input auto-resize {% if last_input %}last_input{% endif %}" 
+					name="context{{ loop.index }}"
+					spellcheck="false"
+					{% if last_input %}autofocus{% endif %}>{{ context }}</textarea>
+				<br>
+			{% endfor %}
+
+			<br>
+			<input class="submitbutton" type="submit" name="newinput">
+		</form>
+
+		<hr>
+
+		<form method="POST">
+			<label for="presets_select">Presets</label>
+			<select name="presets_select" onchange="this.form.submit()" id="presets_select">
+				{% for preset_name in preset_names %}
+					<option value="{{ preset_name }}">{{ preset_name }}</option>
+				{% endfor %}
+			</select>
+		</form>
+
+		<br>
+		
+		<form method="POST">
+			<input class="submitbutton" type="submit" name="clear" value="Clear">
+		</form>
+	
+		<script>
+			//https://stackoverflow.com/questions/454202/creating-a-textarea-with-auto-resize/
+			const tx = document.getElementsByTagName("textarea");
+			for (let i = 0; i < tx.length; i++) {
+				tx[i].setAttribute("style", "height:" + (tx[i].scrollHeight) + "px;overflow-y:hidden;");
+				tx[i].addEventListener("input", OnInput, false);
+			}
+
+			function OnInput() {
+				this.style.height = 0;
+				this.style.height = (this.scrollHeight) + "px";
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,6 @@
+oai_key.txt
+secret_key.txt
+localgpt.bat
+
+__pycache__/
+*/__pycache__/
