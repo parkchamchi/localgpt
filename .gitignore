@@ -2,6 +2,7 @@ oai_key.txt
 secret_key.txt
 localgpt.bat
 auth_users.json
+lclgpt.log
 
 __pycache__/
 */__pycache__/

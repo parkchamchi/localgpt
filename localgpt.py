@@ -8,6 +8,9 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import argparse
 import json
 import hashlib
+import logging
+
+logging.basicConfig(filename="lclgpt.log", level=logging.DEBUG)
 
 app = flask.Flask(__name__)
 with open("secret_key.txt", "rt") as fin:
@@ -72,4 +75,4 @@ if __name__ == "__main__":
 	)
 	args = parser.parse_args()
 
-	app.run(port=args.port)
+	app.run(host="0.0.0.0", port=args.port)
