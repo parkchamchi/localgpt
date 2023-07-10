@@ -1,6 +1,7 @@
 from cgpt import CGPT
 
 import flask
+from flask_wtf import CSRFProtect
 
 import argparse
 
@@ -8,6 +9,8 @@ app = flask.Flask(__name__)
 with open("secret_key.txt", "rt") as fin:
 	secret_key = fin.read()
 app.config["SECRET_KEY"] = secret_key
+
+csrf = CSRFProtect(app)
 
 @app.route("/", methods=["GET", "POST"])
 def index():

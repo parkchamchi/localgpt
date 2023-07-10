@@ -31,6 +31,7 @@
 
 	<body>
 		<form method="POST">
+			<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 			{% for i in range(messages|length + 1) %}
 				{% if i != (messages|length) %}
 					{% set role = messages[i][0] %}
