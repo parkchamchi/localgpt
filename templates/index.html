@@ -32,6 +32,7 @@
 	<body>
 		<form method="POST">
 			<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
 			{% for i in range(messages|length + 1) %}
 				{% if i != (messages|length) %}
 					{% set role = messages[i][0] %}
@@ -58,6 +59,8 @@
 		<hr>
 
 		<form method="POST">
+			<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
 			<label for="presets_select">Presets</label>
 			<select name="presets_select" onchange="this.form.submit()" id="presets_select">
 				{% for preset_name in preset_names %}
@@ -69,6 +72,8 @@
 		<br>
 		
 		<form method="POST">
+			<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+			
 			<input class="submitbutton" type="submit" name="clear" value="Clear">
 		</form>
 	
