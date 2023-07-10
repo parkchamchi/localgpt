@@ -2,6 +2,7 @@ import openai
 
 import json
 import os
+import logging
 
 openai.api_key_path = "oai_key.txt"
 PRESETS_JSON = "presets.json"
@@ -48,7 +49,7 @@ class CGPT:
 			]
 		)
 		assistant_msg = response["choices"][0]["message"]["content"]
-		print("Got.")
+		logging.info("Got.")
 
 		self.messages += [("assistant", assistant_msg)]
 
