@@ -2,8 +2,12 @@ from cgpt import CGPT
 
 import flask
 from flask_wtf import CSRFProtect
+from flask_httpauth import HTTPBasicAuth
+from werkzeug.security import generate_password_hash, check_password_hash
 
 import argparse
+import json
+import hashlib
 
 app = flask.Flask(__name__)
 with open("secret_key.txt", "rt") as fin:
@@ -12,7 +16,19 @@ app.config["SECRET_KEY"] = secret_key
 
 csrf = CSRFProtect(app)
 
+auth = HTTPBasicAuth()
+with open("auth_users.json", "rt") as fin:
+	users = json.load(fin)
+users = {k: generate_password_hash(v) for k, v in users.items()}
+
+@auth.verify_password
+def verify_password(username, password):
+	password_hash = hashlib.sha256(password.encode()).hexdigest()
+	if username in users and check_password_hash(users.get(username), password_hash):
+		return username
+
 @app.route("/", methods=["GET", "POST"])
+@auth.login_required
 def index():
 	messages = None
 	if "cgpt" in flask.session:
